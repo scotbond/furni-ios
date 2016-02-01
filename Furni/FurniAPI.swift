@@ -64,31 +64,27 @@ final class FurniAPI {
 
     // Convenience method to perform a GET request on an API endpoint.
     private func get(endpoint: String, completion: AnyObject? -> Void) {
-        request(endpoint, method: "GET", encoding: .JSON, parameters: nil, completion: completion)
+        request(endpoint, method: .GET, encoding: .JSON, parameters: nil, completion: completion)
     }
 
     // Convenience method to perform a POST request on an API endpoint.
     private func post(endpoint: String, parameters: [String: AnyObject]?, completion: AnyObject? -> Void) {
-        request(endpoint, method: "POST", encoding: .JSON, parameters: parameters, completion: completion)
+        request(endpoint, method: .POST, encoding: .JSON, parameters: parameters, completion: completion)
     }
 
     // Perform a request on an API endpoint using Alamofire.
-    private func request(endpoint: String, method: String, encoding: Alamofire.ParameterEncoding, parameters: [String: AnyObject]?, completion: AnyObject? -> Void) {
+    private func request(endpoint: String, method: Alamofire.Method, encoding: Alamofire.ParameterEncoding, parameters: [String: AnyObject]?, completion: AnyObject? -> Void) {
         let URL = NSURL(string: apiBaseURL + endpoint)!
-        let URLRequest = NSMutableURLRequest(URL: URL)
-        URLRequest.HTTPMethod = method
-
-        let request = encoding.encode(URLRequest, parameters: parameters).0
-
+        
         print("Starting \(method) \(URL) (\(parameters ?? [:]))")
-        Alamofire.request(request).responseJSON { _, response, result in
-            print("Finished \(method) \(URL): \(response?.statusCode)")
-            switch result {
+        Alamofire.Manager.sharedInstance.request(method, URL, parameters: parameters, encoding: encoding) .responseJSON { response in
+            print("Finished \(method) \(URL): \(response.response?.statusCode)")
+            switch response.result {
             case .Success(let JSON):
                 completion(JSON)
-            case .Failure(let data, let error):
+            case .Failure(let error):
                 print("Request failed with error: \(error)")
-                if let data = data {
+                if let data = response.data {
                     print("Response data: \(NSString(data: data, encoding: NSUTF8StringEncoding)!)")
                 }
 
@@ -122,7 +118,7 @@ final class AuthenticatedFurniAPI {
 
     func favoriteProduct(favorite: Bool, product: Product, completion: Bool -> ()) {
         product.isFavorited = favorite
-        FurniAPI.sharedInstance.request("favorites", method: favorite ? "POST" : "DELETE", encoding: .JSON, parameters: [
+        FurniAPI.sharedInstance.request("favorites", method: favorite ? .POST : .DELETE, encoding: .JSON, parameters: [
             "product": "\(product.id)",
             "collection": product.collectionPermalink,
             "cognitoId": self.cognitoID]) { response in

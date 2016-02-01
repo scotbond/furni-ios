@@ -1,7 +1,7 @@
 PODS:
-  - Alamofire (2.0.2)
-  - AlamofireImage (1.1.2):
-    - Alamofire (~> 2.0)
+  - Alamofire (3.1.5)
+  - AlamofireImage (2.3.0):
+    - Alamofire (~> 3.1)
   - AWSCognito (2.3.3):
     - AWSCore (= 2.3.3)
   - AWSCore (2.3.3)
@@ -20,8 +20,8 @@ PODS:
     - TwitterCore (= 1.15.1)
 
 DEPENDENCIES:
-  - Alamofire (~> 2.0)
-  - AlamofireImage (~> 1.0)
+  - Alamofire (~> 3.1)
+  - AlamofireImage (~> 2.0)
   - AWSCognito
   - Crashlytics
   - Digits
@@ -32,8 +32,8 @@ DEPENDENCIES:
   - TwitterKit
 
 SPEC CHECKSUMS:
-  Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
-  AlamofireImage: dc3d3de5d095fd9545b144ba8f6da5bfc539512a
+  Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
+  AlamofireImage: 4013fb5b99b10117bf2554a67b9bd2231d476b45
   AWSCognito: 3c1209a21a7661c079a59e04f5b5dab4f794561c
   AWSCore: b12704516e21ed34cfe7547e07ab945b079d1f56
   Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2

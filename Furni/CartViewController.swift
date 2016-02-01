@@ -198,8 +198,8 @@ final class CartViewController: UITableViewController, PKPaymentAuthorizationVie
         let chargeParams: [String: AnyObject] = ["stripeToken": token.tokenId, "amount": orderPriceCents]
 
         // Create the POST request to the backend to process the charge.
-        request(.POST, url, parameters: chargeParams).responseJSON(completionHandler: { request, response, result in
-            if response?.statusCode == 200 {
+        request(.POST, url, parameters: chargeParams).responseJSON(completionHandler: { response in
+            if response.response?.statusCode == 200 {
                 completion(.Success, nil)
             } else {
                 completion(.Failure, nil)
